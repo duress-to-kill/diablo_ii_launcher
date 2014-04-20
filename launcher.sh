@@ -1,5 +1,10 @@
 #!/bin/bash
 
+source_folder="/stash/acm/Diablo"
+target_folder="/tmp/diablo-`date +%s`"
+mkdir $target_folder
+pushd $target_folder
+find $source_folder -mindepth 1 -maxdepth 1 | xargs -I
 
 #[ -d ~/.d2_save ] || mkdir ~/.d2_save
 #ln -s ~/.d2_save Save
