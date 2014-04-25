@@ -2,9 +2,21 @@
 
 source_folder="/stash/acm/Diablo"
 target_folder="/tmp/diablo-`date +%s`"
+
 mkdir $target_folder
-pushd $target_folder
-find $source_folder -mindepth 1 -maxdepth 1 | xargs -I
+cd $target_folder
+find $source_folder -mindepth 1 -maxdepth 1 | xargs -I ITEM bash -c 'ln -s ITEM `basename ITEM`'
+
+trap 'cd / ; rm -rf $target_folder' INT TERM EXIT
+
+[ -d ~/.d2_save ] || mkdir ~/.d2_save
+ln -s ~/.d2_save Save
+
+wine ./Diablo\ II.exe
+
+echo "Launcher suspended to background. On exit, it will clean up your temp files in $target_folder. To relaunch Diablo II, run \'wine $PWD/Diablo\ II.exe\'"
+
+kill -s SIGSTOP $$
 
 #[ -d ~/.d2_save ] || mkdir ~/.d2_save
 #ln -s ~/.d2_save Save
